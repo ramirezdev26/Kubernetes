@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front
+  template:
+    metadata:
+      labels:
+        app: front
+    spec:
+      containers:
+      - name: front
+        image: ramirezdev26/app-front
+        ports:
+        - containerPort: 4200
+        env:
+        - name: SERVICE_URI
+          valueFrom:
+            configMapKeyRef:
+              name: service-urls
+              key: SERVICE_URI
+              optional: true
+        - name: QUERY_URI
+          valueFrom:
+            configMapKeyRef:
+              name: service-urls
+              key: QUERY_URI
+              optional: true
+        - name: SOCKET_URI
+          valueFrom:
+            configMapKeyRef:
+              name: service-urls
+              key: SOCKET_URI
+              optional: true
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-loadbalancer
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 4200
+      targetPort: 4200
+  selector:
+    app: front

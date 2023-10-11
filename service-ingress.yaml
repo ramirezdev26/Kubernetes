@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: back-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+
+spec:
+  rules:
+  - host: service.app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: service-app-service
+            port:
+              number: 8080
+  - host: query.app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: query-app-service
+            port:
+              number: 8081
+  - host: socket.app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: socket-app-service
+            port:
+              number: 8082

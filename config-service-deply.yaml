@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: service-urls
+data:
+  MYSQL_URI: "r2dbc:mysql://mysql-service:3306/inventory"
+  MONGO_URI: "mongodb://mongodb-service:27017/inventoryDB"
+  SERVICE_URI:  "service.app"
+  QUERY_URI:  "query.app"
+  SOCKET_URI: "socket.app"
+  MINUKUBE_IP: "192.168.39.154"
