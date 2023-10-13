@@ -97,6 +97,39 @@ spec:
 
 
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-app
+  template:
+    metadata:
+      labels:
+        app: auth-app
+    spec:
+      containers:
+      - name: auth-app
+        image: ramirezdev26/app-auth
+        ports:
+        - containerPort: 8083
+        env:
+        - name: MONGO_URI
+          valueFrom:
+            configMapKeyRef:
+              name: service-urls
+              key: MONGO_URI
+        - name: MYSQL_URI
+          valueFrom:
+            configMapKeyRef:
+              name: service-urls
+              key: MYSQL_URI
+
+
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -136,3 +169,17 @@ spec:
     - protocol: TCP
       port: 8082
       targetPort: 8082
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-app-service
+spec:
+  selector:
+    app: auth-app
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: 8083

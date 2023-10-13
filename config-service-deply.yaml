@@ -8,4 +8,5 @@ data:
   SERVICE_URI:  "service.app"
   QUERY_URI:  "query.app"
   SOCKET_URI: "socket.app"
+  AUTH_URI: "auth.app"
   MINUKUBE_IP: "192.168.39.154"
