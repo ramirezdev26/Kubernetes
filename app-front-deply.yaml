@@ -36,6 +36,12 @@ spec:
               name: service-urls
               key: SOCKET_URI
               optional: true
+        - name: AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              name: service-urls
+              key: AUTH_URI
+              optional: true
 
 ---
 apiVersion: v1
